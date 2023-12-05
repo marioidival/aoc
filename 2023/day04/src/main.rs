@@ -8,32 +8,27 @@ fn solve(input: &str) {
     part02(input)
 }
 
+fn parse_n(n: &str) -> u32 {
+    n.parse::<u32>().unwrap()
+}
+
 fn part01(input: &str) {
     let mut ans = 0;
     input.lines().into_iter().for_each(|line| {
         let row: Vec<&str> = line.split(":").collect();
         let numbers: Vec<&str> = row[1].split("|").collect();
-        let winners: HashSet<u32> = numbers[0]
-            .split_whitespace()
-            .map(|n| n.parse::<u32>().unwrap())
-            .collect();
-        let my_numbers: HashSet<u32> = numbers[1]
-            .split_whitespace()
-            .map(|n| n.parse::<u32>().unwrap())
-            .collect();
+        let winners: HashSet<u32> = numbers[0].split_whitespace().map(parse_n).collect();
+        let my_numbers: HashSet<u32> = numbers[1].split_whitespace().map(parse_n).collect();
 
         let intersection: Vec<u32> = winners.intersection(&my_numbers).copied().collect();
         if intersection.len() > 0 {
             ans += u32::pow(2, intersection.len() as u32 - 1)
         }
-        println!("{intersection:?}");
     });
 
     println!("{ans}")
 }
-
 fn part02(input: &str) {
-    let mut ans = 0;
     let mut played = vec![0; input.lines().count()];
 
     input.lines().into_iter().enumerate().for_each(|(i, line)| {
@@ -41,14 +36,8 @@ fn part02(input: &str) {
 
         let row: Vec<&str> = line.split(":").collect();
         let numbers: Vec<&str> = row[1].split("|").collect();
-        let winners: HashSet<u32> = numbers[0]
-            .split_whitespace()
-            .map(|n| n.parse::<u32>().unwrap())
-            .collect();
-        let my_numbers: HashSet<u32> = numbers[1]
-            .split_whitespace()
-            .map(|n| n.parse::<u32>().unwrap())
-            .collect();
+        let winners: HashSet<u32> = numbers[0].split_whitespace().map(parse_n).collect();
+        let my_numbers: HashSet<u32> = numbers[1].split_whitespace().map(parse_n).collect();
 
         let intersection: Vec<u32> = winners.intersection(&my_numbers).copied().collect();
         if intersection.len() > 0 {
